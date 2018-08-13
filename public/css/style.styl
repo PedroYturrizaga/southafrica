@@ -137,6 +137,38 @@ strong
 	justify-content center
 .js-height
 	height 100vh
+.js-header
+	transitionAll()
+	position fixed
+	top 0
+	width 100%
+	background-color #425563
+	z-index 5
+	padding 5px 25px
+	color #FFFFFF
+	height 75px
+	&.js-fixed
+		background-color $color
+	.js-header--container
+		flexCenter()
+		width 100%
+		max-width 1150px
+		margin auto
+	img
+		width 100%
+		max-width 115px
+		position absolute
+		top 5px
+	.js-header--left
+		flexCenter()
+		width 100%
+		max-width 300px
+		justify-content flex-start
+	.js-header--right
+		flexCenter()
+		width 100%
+		justify-content flex-end
+		text-align right
 .js-container
 	transitionMaxWidth()
 	height 100%
@@ -144,7 +176,7 @@ strong
 	max-width 1150px
 	margin auto
 .js-input
-	padding 7px 20px
+	padding 7px 15px
 	height 70px
 	margin 0
 	border 1px solid rgba(0,0,0,0.15)
@@ -153,7 +185,7 @@ strong
 	color #333333
 	margin 5px 0
 	&.js-date
-		padding 5px 20px
+		padding 5px 15px
 		.js-icon
 			width 100%
 			max-width 36px
@@ -178,7 +210,7 @@ strong
 			width 100% !important
 			height 100%
 			.dropdown-toggle
-				padding 14px 24px
+				padding 14px 15px
 				border-radius 0
 				box-shadow none
 				background-color transparent
@@ -202,14 +234,19 @@ strong
 		color #666666
 		cursor pointer
 		margin-bottom 0
+		font-weight 100
 	input
 		display block
 		height 36px
 		width 100%
 		border none
 		font-size 16px
+		&::placeholder
+			font-size 15px
 		&:focus
 			outline 0
+		&[disabled]
+			background-color transparent
 .js-select
 	&.js-standar
 		margin 5px 0
@@ -281,10 +318,36 @@ strong
 		font-weight 100
 	.mdl-checkbox__box-outline
 		border 2px solid #FFFFFF
+.video
+video
+	position absolute
+	top 50%
+	left 0
+	-webkit-transform translate( 0 , -50% )
+	transform translate( 0 , -50% )
+	min-height 100%
+	min-width 100%
+	z-index 0
+	overflow hidden
+	display block
+.video
+	display none
+	&:AFTER
+		position absolute
+		content ''
+		top 0
+		right 0
+		left 0
+		z-index 2
+		background linear-gradient(#FFFFFF, transparent)
+		width 100%
+		height 200px
+.js-fondo--home
+	display block
 .js-fondo
 	absolute()
 	background url(../img/fondo/fondo-home.jpg) no-repeat center center
-	background-size cover
+	background-size cover !important
 	width 100%
 	height 100vh
 	z-index -1
@@ -294,41 +357,52 @@ strong
 		background-color #000000
 		z-index 0
 		height 100vh
-		opacity .5
+		opacity .2
+	&:AFTER
+		position absolute
+		content ''
+		top 0
+		right 0
+		left 0
+		z-index 2
+		background linear-gradient(#FFFFFF, transparent)
+		width 100%
+		height 200px
+	&.fondo1
+		background url(../img/fondo/fondo1.jpg) no-repeat center center
+	&.fondo2
+		background url(../img/fondo/fondo2.jpg) no-repeat center center
+	&.fondo3
+		background url(../img/fondo/fondo3.jpg) no-repeat center center
+#principal
+	.owl-stage-outer
+	.owl-stage
+		height 100vh
+	.owl-carousel
+		absolute()
+		width 100%
+		z-index 1
+		max-width 100%
+		.owl-item
+			height 100vh
+			&.active
+				.item
+					.fondo1
+						-webkit-animation js-animation1 10s infinite
+						animation js-animation1 10s infinite
+					.fondo2
+						-webkit-animation js-animation2 10s infinite
+						animation js-animation2 10s infinite
+					.fondo3
+						-webkit-animation js-animation1 10s infinite
+						animation js-animation1 10s infinite
+			.item
+				height 100vh
 footer
-	background-color #000000
+	background-color #425563
 	color #FFFFFF
 	p
 		font-size 14px
-/*BOOTSTRAP4*/
-.navbar-default
-	transitionAll()
-	margin 0
-	padding 10px
-	border none
-	border-radius 0
-	position fixed
-	width 100%
-	background-color #000000
-	z-index 10
-	.navbar-nav
-		&>li
-			&>a
-				color #FFFFFF !important
-				font-size 18px
-				background-color transparent !important
-.navbar-brand
-	padding 0
-	position relative
-	small
-		position absolute
-		right 0
-		margin-right -230px
-		margin-top -25px
-		color #FFFFFF
-	img
-		transitionMaxWidth()
-		max-width 200px
 .nav-tabs
 	border none
 	&>li
@@ -344,13 +418,17 @@ footer
 	text-align center
 	color #FFFFFF
 	max-width 600px
+	z-index 1
 	h2
-		font-size 60px
-		line-height 60px
+		font-size 55px
+		line-height 55px
 		font-family $bold
 	p
 		font-size 32px
+		line-height 32px
 .js-information
+	h2
+		font-family $medium
 	p
 		line-height 20px
 		margin 15px 0
@@ -360,29 +438,36 @@ footer
 	ul
 		li
 			font-size 18px
-.js-information__left
-	flexCenter()
-	justify-content flex-start
-	position relative
-	width 100%
-	height 200px
-	max-width 300px
-	.js-information__left--imagen
-		absolute()
-		background url(../img/fondo/hotel.jpg) no-repeat center center
-		background-size cover
-		height 200px
-.js-information__right
-	padding 20px
-	width 100%
-	max-width calc(100% - 300px)
-	p
-		margin 5px 0
+.js-nav
+	a
+		img
+			position absolute
+			max-width 125px
 .js-card
 	box-shadow 0 2px 5px rgba(0,0,0,0.16), 0 2px 5px rgba(0,0,0,0.23)
 	border-radius 5px
 	padding 15px
 	margin 20px 0
+	background-color #FFFFFF
+.js-confirmation
+	width 100%
+	max-width 600px
+	color #000000
+	text-align center
+	margin 40px auto
+	display none
+	&.aparecer
+		display block
+	h2
+		font-family $medium
+		font-size 40px
+		line-height 40px
+		margin 20px 0
+	p
+		letter-spacing 1px
+	strong
+		display block
+		font-size 18px
 /*MATERIAL DESIGN*/
 .mdl-card
 .mdl-card__supporting-text
@@ -405,12 +490,91 @@ footer
 				transform translate(1)
 				transform transform(-50% , -50%)
 				opacity 1
-/*TABLE*/
+/*ANIMACIONES*/
+@-webkit-keyframes js-animation1
+	0%
+		-webkit-transform translate3d(0px, 0px, 0px) scale(1)
+		-moz-transform translate3d(0px, 0px, 0px) scale(1)
+		-ms-transform translate3d(0px, 0px, 0px) scale(1)
+		-o-transform translate3d(0px, 0px, 0px) scale(1)
+		transform translate3d(0px, 0px, 0px) scale(1)
+	100%
+		-webkit-transform translate3d(-100px, 0px, 0px) scale(1.2)
+		-moz-transform translate3d(-100px, 0px, 0px) scale(1.2)
+		-ms-transform translate3d(-100px, 0px, 0px) scale(1.2)
+		-o-transform translate3d(-100px, 0px, 0px) scale(1.2)
+		transform translate3d(-100px, 0px, 0px) scale(1.2)
+@keyframes js-animation1
+	0%
+		-webkit-transform translate3d(0px, 0px, 0px) scale(1)
+		-moz-transform translate3d(0px, 0px, 0px) scale(1)
+		-ms-transform translate3d(0px, 0px, 0px) scale(1)
+		-o-transform translate3d(0px, 0px, 0px) scale(1)
+		transform translate3d(0px, 0px, 0px) scale(1)
+	100%
+		-webkit-transform translate3d(-100px, 0px, 0px) scale(1.2)
+		-moz-transform translate3d(-100px, 0px, 0px) scale(1.2)
+		-ms-transform translate3d(-100px, 0px, 0px) scale(1.2)
+		-o-transform translate3d(-100px, 0px, 0px) scale(1.2)
+		transform translate3d(-100px, 0px, 0px) scale(1.2)
+@-webkit-keyframes js-animation2
+	0%
+		-webkit-transform translate3d(0px, 0px, 0px) scale(1)
+		-moz-transform translate3d(0px, 0px, 0px) scale(1)
+		-ms-transform translate3d(0px, 0px, 0px) scale(1)
+		-o-transform translate3d(0px, 0px, 0px) scale(1)
+		transform translate3d(0px, 0px, 0px) scale(1)
+	100%
+		-webkit-transform translate3d(100px, 0px, 0px) scale(1.2)
+		-moz-transform translate3d(100px, 0px, 0px) scale(1.2)
+		-ms-transform translate3d(100px, 0px, 0px) scale(1.2)
+		-o-transform translate3d(100px, 0px, 0px) scale(1.2)
+		transform translate3d(100px, 0px, 0px) scale(1.2)
+@keyframes js-animation2
+	0%
+		-webkit-transform translate3d(0px, 0px, 0px) scale(1)
+		-moz-transform translate3d(0px, 0px, 0px) scale(1)
+		-ms-transform translate3d(0px, 0px, 0px) scale(1)
+		-o-transform translate3d(0px, 0px, 0px) scale(1)
+		transform translate3d(0px, 0px, 0px) scale(1)
+	100%
+		-webkit-transform translate3d(100px, 0px, 0px) scale(1.2)
+		-moz-transform translate3d(100px, 0px, 0px) scale(1.2)
+		-ms-transform translate3d(100px, 0px, 0px) scale(1.2)
+		-o-transform translate3d(100px, 0px, 0px) scale(1.2)
+		transform translate3d(100px, 0px, 0px) scale(1.2)
+@keyframes js-animation0
+	0%
+		-webkit-transform scale(1)
+		-moz-transform scale(1)
+		-ms-transform scale(1)
+		-o-transform scale(1)
+		transform scale(1)
+	100%
+		-webkit-transform scale(1.2)
+		-moz-transform scale(1.2)scale(1.2)
+		-ms-transform scale(1.2)
+		-o-transform scale(1.2)
+		transform scale(1.2)
+@-webkit-keyframes js-animation0
+	0%
+		-webkit-transform scale(1)
+		-moz-transform scale(1)
+		-ms-transform scale(1)
+		-o-transform scale(1)
+		transform scale(1)
+	100%
+		-webkit-transform scale(1.2)
+		-moz-transform scale(1.2)
+		-ms-transform scale(1.2)
+		-o-transform scale(1.2)
+		transform scale(1.2)
 table
 	&>tbody
 		&>tr
 			&>td
 				font-size 16px
+				vertical-align middle !important
 .table-responsive
 	border none
 /*SCROLL*/
@@ -424,26 +588,44 @@ table
 	background-color #AAAAAA
 	border-radius 10px
 @media (min-width: 768px)
-	.navbar
+	.js-header
 		background-color transparent
+		img
+			&.logo-one
+				opacity 1
+			&.logo-two
+				opacity 0
 		&.navbarcolor
-			background-color #000000
-			.navbar-brand
-				img
-					max-width 200px
+			background-color #425563
+			img
+				&.logo-one
+					opacity 0
+				&.logo-two
+					opacity 1
 	.navbar-brand
 		img
 			max-width 250px
+	.js-fondo--home
+		display none
+	.video
+		display block
 @media (max-width: 1000px)
 	.navbar-brand
 		small
 			display none
+	#principal
+		.owl-carousel
+			.owl-item
+				&.active
+					.item
+						.fondo1
+						.fondo2
+						.fondo3
+							-webkit-animation js-animation0 10s infinite
+							animation js-animation0 10s infinite
 @media (max-width: 600px)
-	.navbar-brand
-		small
-			display none	
-	#hotel
-		.js-flex--start
-			display block
-		.js-information__right
-			max-width 100%	
+	.js-contenido
+		padding 40px 20px
+		h2
+			font-size 46px
+			line-height 48px

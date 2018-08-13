@@ -39,11 +39,18 @@ class Home extends CI_Controller {
 			$paisEmisor 	= $this->input->post('paisEmisor');
 			$genero 		= $this->input->post('genero');
 			$fechaCumple 	= implode("-", array_reverse(explode("/", $this->input->post('fechaCumple'))));
+			$direccion 	    = $this->input->post('direccion');
+			$estado     	= $this->input->post('estado');
+			$codigoEstado 	= $this->input->post('codigoEstado');
+			$flgSeguro 	    = $this->input->post('flgSeguro');
 			$nacionalidad 	= $this->input->post('nacionalidad');
 			$ciudadReferen 	= $this->input->post('ciudadReferen');
 			$flgInvitacion 	= $this->input->post('flgInvitacion');
 			$asientoPrefere = $this->input->post('asientoPrefere');
 			$tallaPolo 		= $this->input->post('tallaPolo');
+			$foto 		    = $this->input->post('foto');
+			$blank 		    = $this->input->post('blank');
+			$page 		    = $this->input->post('page');
 			//Tabla Contacto Emergencia
 			$nombreContacto = $this->input->post('nombreContacto');
 			$telefonoContac = $this->input->post('telefonoContac');
@@ -67,11 +74,18 @@ class Home extends CI_Controller {
 								   'pais_emisor'		=> $paisEmisor,
 								   'genero'				=> $genero,
 								   'fecha_cumple'		=> $fechaCumple,
+								   'direccion'		    => $direccion,
+								   'estado'		        => $estado,
+								   'codigo_estado'		=> $codigoEstado,
+								   'flg_seguro'		    => $flgSeguro,
 								   'nacionalidad'		=> $nacionalidad,
 								   'ciudad_referencia'	=> $ciudadReferen,
 								   'flg_invitacion'		=> $flgInvitacion,
 								   'asiento_preferencia'=> $asientoPrefere,
 								   'talla_polo'			=> $tallaPolo,
+								   'page'				=> $page,
+								   'imagen'				=> $foto,
+								   'imagen2'			=> $blank,
 								   '_id_negocio'		=> $datoInsert['id_negocio']);
 			$insertContacto = array('nombre' 	 => $nombreContacto, 
 									'telefono' 	 => $telefonoContac,
@@ -79,11 +93,77 @@ class Home extends CI_Controller {
 									'adicional'  => $especificacion,
 									'_id_negocio'=> $datoInsert['id_negocio']);
 			$this->M_Solicitud->insertarDemasDatos($insertPersona, 'persona', $insertContacto, 'contacto_emergencia');
-          $data['msj']   = $datoInsert['msj'];
-          $data['error'] = $datoInsert['error'];
-		} catch(Exception $ex) {
+			$session    = array('id_negocio' => $datoInsert['id_negocio']);
+            $this->session->set_userdata($session);
+      		$data['msj']   = $datoInsert['msj'];
+      		$data['error'] = $datoInsert['error'];
+		}catch(Exception $ex) {
 			$data['msj'] = $ex->getMessage();
 		}
       	echo json_encode($data);
 	}
+	function subirPassport(){
+        $respuesta = new stdClass();
+        $respuesta->error = EXIT_ERROR;
+        $respuesta->mensaje = "";
+        if(count($_FILES) == 0){
+            $respuesta->mensaje = 'Select an image Passport';
+        }else {
+            $tipo = $_FILES['archivo']['type']; 
+            $tamanio = $_FILES['archivo']['size']; 
+            $archivotmp = $_FILES['archivo']['tmp_name'];
+            $namearch = $_FILES['archivo']['name'];
+            $nuevo = explode(".",$namearch);
+    		$_FILES['archivo']['name'] = str_replace(' ', '_', $_FILES['archivo']['name']);
+            $contador = count($nuevo);
+            if($tamanio > '2000000'){
+                $respuesta->mensaje = 'Image Passport must be less than 2MB';
+            }else {
+                if($nuevo[$contador-1] == 'svg' || $nuevo[$contador-1] == 'SVG' || $nuevo[$contador-1] == 'jpeg' || $nuevo[$contador-1] == 'JPEG' || $nuevo[$contador-1] == 'jpg' || $nuevo[$contador-1] == 'JPG' || $nuevo[$contador-1] == 'png'|| $nuevo[$contador-1] == 'PNG'){
+                    $target = getcwd().DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'archivos'.DIRECTORY_SEPARATOR.basename($_FILES['archivo']['name']);
+                    if(move_uploaded_file($archivotmp, $target) ){
+                       // $respuesta->mensaje = 'Su logo se subió correctamente';
+                    	$respuesta->error = EXIT_SUCCESS;
+                    } else {
+                       $respuesta->mensaje = 'Hubo un problema en la subida de su pasaporte';
+                    }
+                }else {
+                    $respuesta->mensaje = 'El formato de la imagen es incorrecta';
+                }
+            }
+            echo json_encode($respuesta);
+        }
+    }
+    function subirBlankPassport(){
+        $respuesta = new stdClass();
+        $respuesta->error = EXIT_ERROR;
+        $respuesta->mensaje = "";
+        if(count($_FILES) == 0){
+            $respuesta->mensaje = 'Select an image Passport';
+        }else {
+            $tipo = $_FILES['blank']['type']; 
+            $tamanio = $_FILES['blank']['size']; 
+            $archivotmp = $_FILES['blank']['tmp_name'];
+            $namearch = $_FILES['blank']['name'];
+            $nuevo = explode(".",$namearch);
+    		$_FILES['blank']['name'] = str_replace(' ', '_', $_FILES['blank']['name']);
+            $contador = count($nuevo);
+            if($tamanio > '2000000'){
+                $respuesta->mensaje = 'Image Passport must be less than 2MB';
+            }else {
+                if($nuevo[$contador-1] == 'svg' || $nuevo[$contador-1] == 'jpeg' || $nuevo[$contador-1] == 'jpg' || $nuevo[$contador-1] == 'png'){
+                    $target = getcwd().DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'archivos'.DIRECTORY_SEPARATOR.basename($_FILES['blank']['name']);
+                    if(move_uploaded_file($archivotmp, $target) ){
+                       // $respuesta->mensaje = 'Su logo se subió correctamente';
+                    	$respuesta->error = EXIT_SUCCESS;
+                    } else {
+                       $respuesta->mensaje = 'Hubo un problema en la subida de su pasaporte';
+                    }
+                }else {
+                    $respuesta->mensaje = 'El formato de la imagen es incorrecta';
+                }
+            }
+            echo json_encode($respuesta);
+        }
+    }
 }

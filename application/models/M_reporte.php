@@ -6,21 +6,29 @@ class M_reporte extends  CI_Model{
     }
 
     function getDatosUser() {
-        $sql = "SELECT n.primer_nombre,
-                       n.apellidos,
-                       n.empresa,
-                       n.correo,
-                       n.fecha_registro,
+        $sql = "SELECT n.*,
                        p.*,
-                       i.*,
-                       ce.*
+                       ce.*,
+                       n.telefono AS phone
                   FROM negocio n,
                        persona p,
-                       itinerario i,
                        contacto_emergencia ce
                  WHERE n.id_negocio = p._id_negocio
-                   AND n.id_negocio = i._id_negocio
                    AND n.id_negocio = ce._id_negocio";
+        $result = $this->db->query($sql);
+        return $result->result();
+    }
+    function getDocumento($id){
+        $sql    = "SELECT imagen 
+                     FROM persona
+                    WHERE _id_negocio = ".$id."";
+        $result = $this->db->query($sql);
+        return $result->result();
+    }
+    function getBlankDocumento($id){
+        $sql    = "SELECT imagen2 
+                     FROM persona
+                    WHERE _id_negocio = ".$id."";
         $result = $this->db->query($sql);
         return $result->result();
     }

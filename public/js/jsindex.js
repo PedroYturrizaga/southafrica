@@ -1,6 +1,7 @@
 function sendInformation(){
 	//Business
 	var check_invi 			 = null;
+	var check_travel         = null;
 	var firstname 			 = $('#firstname').val();
 	var middlename 			 = $('#middlename').val();
 	var lastname 			 = $('#lastname').val();
@@ -17,6 +18,16 @@ function sendInformation(){
 	var issuecountry 		 = $('#issuecountry').val();
 	var gender 				 = $('#gender').val();
 	var birthdate 			 = $('#birthdate').val();
+	var address 			 = $('#address').val();
+	var state 			     = $('#state').val();
+	var zipcode 			 = $('#zipcode').val();
+	var option3 			 = $('#option-3').is(':checked');
+	var option4				 = $('#option-4').is(':checked');
+	if(option3 == true){
+		check_travel = 1;
+	}else if(option4 == true) {
+		check_travel = 0;
+	}
 	var nationality 		 = $('#nationality').val();
 	var residence 			 = $('#residence').val();
 	var option1 			 = $('#option-1').is(':checked');
@@ -28,29 +39,11 @@ function sendInformation(){
 	}
 	var seating 			 = $('#seating').val();
 	var shirt 				 = $('#shirt').val();
-	//Itinerary
-	var acknowledgement 	 = $('#acknowledgement').val();
-	var restrictions 		 = $('#restrictions').val();
-	var checkindate 		 = $('#checkindate').val();
-	var checkoutdate 		 = $('#checkoutdate').val();
-	var need 				 = $('#need').val();
-	var departureorigin 	 = $('#departureorigin').val();
-	var departuredestination = /*$('#departuredestination').val()*/'aa';//quitado
-	var departuredate 		 = $('#departuredate').val();
-	var departuretime 		 = $('#departuretime').val();
-	var returnorigin 		 = $('#returnorigin').val();
-	var returndestination 	 = /*$('#returndestination').val()*/'aa';
-	var returndate 			 = $('#returndate').val();
-	var returntime 			 = $('#returntime').val();
-	var preference1 		 = $('#preference1').val();
-	var rewards1 			 = $('#rewards1').val();
-	var preference2 		 = $('#preference2').val();
-	var rewards2 			 = $('#rewards2').val();
-	var preference3 		 = $('#preference3').val();
-	var rewards3 			 = $('#rewards3').val();
-	var confirmation 		 = /*$('#confirmation').val()*/'aa';//quitado
-	var modifidate 			 = /*$('#modifidate').val()*/'aa';//quitado
-	var cancellationdate 	 = /*$('#cancellationdate').val()*/'aa';//quitado
+	var photoPassport        = $('#fotopassport').val();
+	var photoBlankPassport   = $('#fotoblankpassport').val();
+	var page                 = $('#page').val();
+	var photo                = $('#archivo')[0].files[0]; 
+	var blankphoto           = $('#blank')[0].files[0]; 
 	//Emergency Contact
 	var contact 			 = $('#contact').val();
 	var phone 				 = $('#phone').val();
@@ -122,6 +115,22 @@ function sendInformation(){
 		msj('error', 'Date of birth must be completed');
 		return;
 	}
+	if(address == null || address == '') {
+		msj('error', 'Address must be completed');
+		return;
+	}
+	if(state == null || state == '') {
+		msj('error', 'State must be completed');
+		return;
+	}
+	if(zipcode == null || zipcode == '') {
+		msj('error', 'Zip Code must be completed');
+		return;
+	}
+	if(check_travel == null) {
+		msj('error', 'Travel Insurance must be completed');
+		return;
+	}
 	if(nationality == null || nationality == '') {
 		msj('error', 'Nacionality must be completed');
 		return;
@@ -143,61 +152,46 @@ function sendInformation(){
 		msj('error', 'T-shirt must be completed');
 		return;
 	}
-	//Itinerary
-	if(acknowledgement == null || acknowledgement == '') {
-		msj('error', 'Name acknowledgement must be completed');
+	if(photoPassport == null || photoPassport == '') {
+		msj('error', 'Image Passport must be completed');
 		return;
 	}
-	if(restrictions == null || restrictions == '') {
-		msj('error', 'Dietary restrictions must be completed');
-		return;
-	}
-	if(checkindate == null || checkindate == '') {
-		msj('error', 'Check-in must be completed');
-		return;
-	}
-	if(checkoutdate == null || checkoutdate == '') {
-		msj('error', 'Check-out must be completed');
-		return;
-	}
-	if(need == null || need == '') {
-		msj('error', 'Special needs must be completed');
-		return;
-	}
-	if(departureorigin == null || departureorigin == '') {
-		msj('error', 'Departure flight origin must be completed');
-		return;
-	}
-	// if(departuredestination == null) {
-	// 	msj('error', 'Departure flight destination must be completed');
+	// if(!validateNotPdf(photoPassport)){
+	// 	msj('error', 'Image Passport only svg, jpg, jpeg and png');
 	// 	return;
 	// }
-	if(departuredate == null || departuredate == '') {
-		msj('error', 'Departure date must be completed');
+	if(photoBlankPassport == null || photoBlankPassport == '') {
+		msj('error', 'Image of two blank page Passport must be completed');
 		return;
 	}
-	if(departuretime == null || departuretime == '') {
-		msj('error', 'Departure time must be completed');
-		return;
-	}
-	if(returnorigin == null || returnorigin == '') {
-		msj('error', 'Return flight origin must be completed');
-		return;
-	}
-	// if(returndestination == null) {
-	// 	msj('error', 'Return flight destination must be completed');
+	// if(!validateNotPdf(photoBlankPassport)){
+	// 	msj('error', 'Image of two blank page Passport only svg, jpg, jpeg and png');
 	// 	return;
 	// }
-	if(returndate == null || returndate == '') {
-		msj('error', 'Return date must be completed');
+	if(page == null || page == '') {
+		msj('error', 'Pages must be completed');
 		return;
 	}
-	if(returntime == null || returntime == '') {
-		msj('error', 'Return time must be completed');
+	if(photo['size'] > 2048000){
+		msj('error', 'Image Passport must be less than 2MB');
 		return;
 	}
-
-	//CONTINUA AQUI
+	if(blankphoto['size'] > 2048000){
+		msj('error', 'Image of two blank page Passport must be less than 2MB');
+		return;
+	}
+	if(photo == undefined){
+		msj('error', 'Select an image');
+		return;
+	}
+	if(blankphoto == undefined){
+		msj('error', 'Select an image');
+		return;
+	}
+	if(!validateNumber(page)){
+		msj('error', 'Only numbers');
+		return;
+	}
 	//Contacto emergencia
 	if(contact == null || contact == '') {
 		msj('error', 'Contact name must be completed');
@@ -228,34 +222,18 @@ function sendInformation(){
 				paisEmisor		: issuecountry,
 				genero			: gender,
 				fechaCumple		: birthdate,
+				direccion    	: address,
+				estado      	: state,
+				codigoEstado 	: zipcode,
+				flgSeguro   	: check_travel,
 				nacionalidad	: nationality,
 				ciudadReferen	: residence,
 				flgInvitacion	: check_invi,
 				asientoPrefere	: seating,
 				tallaPolo		: shirt,
-				//
-				reconocimiento	: acknowledgement,
-				restriccionDieta: restrictions,
-				checkInDate 	: checkindate,
-				checkOutDate 	: checkoutdate,
-				necesidadEspe	: need,
-				origenPartida	: departureorigin,
-				destinoPartida	: departuredestination,
-				diaVueloOrigen	: departuredate,
-				HoraVueloOrigen	: departuretime,
-				origenRetorno	: returnorigin,
-				destinoRetorno	: returndestination,
-				diaVueloRetorno	: returndate,
-				HoraVueloRetorno: returntime,
-				aerolinea1		: preference1,
-				codigoAero1		: rewards1,
-				aerolinea2		: preference2,
-				codigoAero2		: rewards2,
-				aerolinea3		: preference3,
-				codigoAero3		: rewards3,
-				confirmacion	: confirmation,
-				ultimoDiaModifica: modifidate,
-				ultimoDiaCancela: cancellationdate,
+				foto            : photoPassport,
+				blank           : photoBlankPassport,
+				page            : page,
 				//
 				nombreContacto	: contact,
 				telefonoContac	: phone,
@@ -267,9 +245,13 @@ function sendInformation(){
 		try {
 			data = JSON.parse(data);
 			if(data.error == 0){
+				guardarPhoto();
+				guardarBlankPhoto();
 				$('.js-input').find('input').val('');
-				$('.js-select').find('select').val('0');
-				$('.js-select').find('select').selectpicker('refresh');
+				$('.js-input').find('select').val('0');
+				$('.js-input').find('select').selectpicker('refresh');
+				$('#confirmation').addClass('aparecer');
+				// msj('success', 'Register Completed');
         	}else{
         		return;
         	}
@@ -307,12 +289,20 @@ function validateEmail(email){
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 }
+function validateNumber(number){
+    var re = /^\d+$/;
+    return re.test(number);
+}
+// function validateNotPdf(pdf){
+//     var re = /.+(?=.pdf|.PDF)/;
+//     return re.test(pdf);
+// }
 var $win = $(window);
 $win.scroll(function () {
 	if ($win.scrollTop() > 45) {
-		$("nav").addClass("navbarcolor");
+		$(".js-header").addClass("navbarcolor");
 	} else {
-		$("nav").removeClass("navbarcolor");
+		$(".js-header").removeClass("navbarcolor");
 	}
 });
 $('a.link[href^="#"]').click(function(e) {
@@ -326,4 +316,118 @@ $('a.link[href^="#"]').click(function(e) {
  	$('html, body').animate({
  		scrollTop : (y - 40)
  	}, 'slow');
+});
+function subirPasaporte(){
+	$("#archivo").trigger("click");
+}
+function subirBlankPasaporte(){
+	$("#blank").trigger("click");
+}
+$("#archivo").change(function(e) {
+	var files = e.target.files;
+    var archivo = files[0].name;
+    var nuevo = archivo.split(".");
+    var contador = nuevo.length;
+    if (nuevo[contador-1] == 'svg' || nuevo[contador-1] == 'jpeg' || nuevo[contador-1] == 'jpg' || nuevo[contador-1] == 'png') {
+	    archivo = archivo.replace(/\s/g,"_");
+		$('#fotopassport').val(archivo);
+    } else {
+		msj('error', 'Image Passport only svg, jpg, jpeg and png');
+		return;
+    }
+});
+$("#blank").change(function(e) {
+	var files = e.target.files;
+    var archivo = files[0].name;
+    var nuevo = archivo.split(".");
+    var contador = nuevo.length;
+    if (nuevo[contador-1] == 'svg' || nuevo[contador-1] == 'jpeg' || nuevo[contador-1] == 'jpg' || nuevo[contador-1] == 'png') {
+	    archivo = archivo.replace(/\s/g,"_");
+		$('#fotoblankpassport').val(archivo);
+    } else {
+		msj('error', 'Image of two blank page Passport only svg, jpg, jpeg and png');
+		return;
+    }
+});
+function guardarPhoto(){
+	var datos = new FormData();
+	var photo = $('#archivo')[0].files[0];
+	if(photo['size'] > 2048000){
+		return;
+	}
+	if(photo == undefined){
+		return;
+	}
+    datos.append('archivo',$('#archivo')[0].files[0]);
+     $.ajax({
+        type     	:"post",
+        dataType 	:"json",
+        url		    :"home/subirPassport",
+        contentType :false,
+        data 		:datos,
+        processData :false,
+      }).done(function(respuesta){
+      	if(respuesta.error == 0) {
+      		/*modal('ModalQuestion');
+      		setTimeout(function() {
+				modal('modalDetalles');
+				$('#bodyPuntaje').html(respuesta.html);
+        		$('#puntajeGeneral').html(respuesta.puntosGeneral);
+        		$('#bodyUltimaCotizacion').html(respuesta.bodyCotizaciones);
+        		$('#bodyCanales').html(respuesta.bodyCanales);
+        		//limpiarCampos();
+			}, 250);*/
+      	} else {
+        	msj('error', respuesta.mensaje);
+      	}
+    });
+}
+function guardarBlankPhoto(){
+	var datos = new FormData();
+	var photo = $('#blank')[0].files[0];
+	if(photo['size'] > 2048000){
+		return;
+	}
+	if(photo == undefined){
+		return;
+	}
+    datos.append('blank',$('#blank')[0].files[0]);
+     $.ajax({
+        type     	:"post",
+        dataType 	:"json",
+        url		    :"home/subirBlankPassport",
+        contentType :false,
+        data 		:datos,
+        processData :false,
+      }).done(function(respuesta){
+      	if(respuesta.error == 0) {
+      		/*modal('ModalQuestion');
+      		setTimeout(function() {
+				modal('modalDetalles');
+				$('#bodyPuntaje').html(respuesta.html);
+        		$('#puntajeGeneral').html(respuesta.puntosGeneral);
+        		$('#bodyUltimaCotizacion').html(respuesta.bodyCotizaciones);
+        		$('#bodyCanales').html(respuesta.bodyCanales);
+        		//limpiarCampos();
+			}, 250);*/
+      	} else {
+        	msj('error', respuesta.mensaje);
+      	}
+    });
+}
+$('#principal .owl-carousel').owlCarousel({
+	lazyLoad : true,
+	animateOut: 'fadeOut',
+	animateIn: 'fadeIn',
+	responsive : {
+		0 : {
+			items : 1
+		}
+	},
+	navigation : false,
+	nav : false,
+	loop : true,
+	autoplay : true,
+	mouseDrag: false,
+	autoplayTimeout : 5000
 });
